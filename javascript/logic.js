@@ -20,13 +20,12 @@ $(document).ready(function() {
 		var trainFrequency = $("#frequency-form").val().trim();
 		var firstArrival = $("#arrival-form").val().trim();
 		var naFormat = moment.unix(firstArrival).format("h:mm");
-
 		var newTrain = {
 			name: trainName,
 			destination: trainDest,
 			frequency: trainFrequency,
 			arrival: firstArrival,
-		}
+		};
 		database.ref("train").push(newTrain);
 		location.reload();
 	});
@@ -40,19 +39,16 @@ $(document).ready(function() {
 			var trainDest = train[td].destination;
 			var firstArrival = train[td].arrival;
 			var trainFrequency = train[td].frequency;
-
 			var arrivalSplit = firstArrival.split(":");
 			var arrivalTime = moment().hours(arrivalSplit[0]).minutes(arrivalSplit[1]);
-			// console.log(arrivalTime)
 			var diffTime = moment().diff(arrivalTime, "minutes");
 			var remainder = diffTime % trainFrequency;
 			var minutesAway = trainFrequency - remainder;
 			var trainArrive = moment().add(minutesAway, "minutes").format("h:mm a");
 			console.log(trainArrive);
 			$(".table").append("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" + trainArrive + "</td><td>" + trainFrequency + "</td><td>" + minutesAway + "</td></tr>");
-		}
+		};
 	}, function(errorObject) {
 		console.log("The read failed: " + errorObject.code);
-
 	});
 });
